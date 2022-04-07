@@ -1,0 +1,14 @@
+{
+  "devDependencies": {
+    "eslint": "8.2.0",
+    "eslint-config-airbnb-base": "15.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "2.25.2",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.6.2"
+  },
+  "scripts": {
+    "start": "SET \"NODE_ENV=staging\" && nodemon index",
+    "production": "SET \"NODE_ENV=production\" && nodemon index"
+  }
+}
