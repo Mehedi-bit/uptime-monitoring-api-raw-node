@@ -17,8 +17,8 @@ const app = {};
 
 // testing file system
 // @todo:pore muche dibo
-data.create(test, 'newFile', { name: 'Mahdi', country: 'Bangladesh' }, (err) => {
-    console.log('err was: ', err);
+data.update('test', 'newFile', { name: 'England', language: 'English' }, (err) => {
+    console.log(err);
 });
 
 // create Server
