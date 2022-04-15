@@ -35,7 +35,7 @@ handler.handleReqRes = (req, res) => {
         headerObject,
     };
 
-    const decoder = new StringDecoder('utf-8');
+    const decoder = new StringDecoder('utf8');
     let realData = '';
 
     const chosenHandler = routes[trimmedPath] ? routes[trimmedPath] : notFoundHandler;
@@ -49,6 +49,7 @@ handler.handleReqRes = (req, res) => {
 
         requestProperties.body = parseJSON(realData);
 
+
         chosenHandler(requestProperties, (statusCode, payload) => {
             statusCode = typeof statusCode === 'number' ? statusCode : 500;
             payload = typeof payload === 'object' ? payload : {};
@@ -57,12 +58,11 @@ handler.handleReqRes = (req, res) => {
 
             // Return the final response object
             res.setHeader('Content-Type', 'application/json');
-            
-            res.end(payloadString);res.writeHead(statusCode);
+            res.writeHead(statusCode);
+            res.end(payloadString);
         });
 
-        // response handle
-        res.end('Hello World');
+        
     });
 };
 module.exports = handler;

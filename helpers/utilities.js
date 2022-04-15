@@ -23,7 +23,7 @@ utilities.parseJSON = (jsonString) => {
     } catch {
         output = {};
     }
-    
+    return output;
 };
 
 // hash the string  or password etc

@@ -19,17 +19,17 @@ const handler = {};
 handler.userHandler = (requestProperties, callback) => {
     const acceptedMethods = ['get', 'post', 'put', 'delete'];
     if (acceptedMethods.indexOf(requestProperties.method) > -1) {
-        handler._user[requestProperties.method](requestProperties, callback); // ***
+        handler._users[requestProperties.method](requestProperties, callback); // ***
     } else {
         callback(405);
     }
 };
 
-// scaffolding _user
-handler._user = {};
+// scaffolding _users
+handler._users = {};
 
 // for post
-handler._user.post = (requestProperties, callback) => {
+handler._users.post = (requestProperties, callback) => {
     const firstName = typeof requestProperties.body.firstName === 'string'
         && requestProperties.body.firstName.trim().length > 0
             ? requestProperties.body.firstName
@@ -51,16 +51,16 @@ handler._user.post = (requestProperties, callback) => {
             : false;
 
     const tosAgreement = typeof requestProperties.body.tosAgreement === 'boolean'
-        && requestProperties.body.tosAgreement.trim().length > 0
+        && requestProperties.body.tosAgreement
             ? requestProperties.body.tosAgreement
             : false;
 
     if (firstName && lastName && phone && password && tosAgreement) {
         // make sure that the user doesn't already exist
-        data.read('users', 'phone', (err) => {
-            if (err) {
+        data.read('users', 'phone', (err1) => {
+            if (err1) {
                 // means- na pele read korte parbe na, then error dibe, ami error tai chai, na pele tobei ami insert korbo.
-                let userObject = {
+                const userObject = {
                     firstName,
                     lastName,
                     phone,
@@ -68,18 +68,18 @@ handler._user.post = (requestProperties, callback) => {
                     tosAgreement,
                 };
                 // store the user to db
-                data.create('users', 'phone', userObject, (err) => {
-                    if(!err) {
+                data.create('users', 'phone', userObject, (err2) => {
+                    if(!err2) {
                         callback(200, {
-                            message: 'User was created successfully',
-                        })
+                            message: 'User was created successfully!',
+                        });
                     } else {
-                        callback(500, {error: 'could not create user'});
+                        callback(500, { error: 'Could not create user!' });
                     }
                 });
             } else {
                 callback(500, {
-                    error: 'There was an error in server side',
+                    error: 'There was an error in server side!',
                 });
             }
         });
@@ -91,15 +91,15 @@ handler._user.post = (requestProperties, callback) => {
 };
 
 // for get
-handler._user.get = (requestProperties, callback) => {
+handler._users.get = (requestProperties, callback) => {
     callback(200);
 };
 
 // for put
-handler._user.put = (requestProperties, callback) => {};
+handler._users.put = (requestProperties, callback) => {};
 
 // for delete
-handler._user.delete = (requestProperties, callback) => {};
+handler._users.delete = (requestProperties, callback) => {};
 
 // exporting
 module.exports = handler;
