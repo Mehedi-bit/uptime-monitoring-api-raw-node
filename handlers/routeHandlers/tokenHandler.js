@@ -51,7 +51,7 @@ handler._token.post = (requestProperties, callback) => {
                 };
 
                 // store the token
-                data.create('tokens', 'tokenId', tokenObject, (err2) => {
+                data.create('tokens', tokenId, tokenObject, (err2) => {
                     if (!err2) {
                         callback(200, tokenObject);
                     } else {
