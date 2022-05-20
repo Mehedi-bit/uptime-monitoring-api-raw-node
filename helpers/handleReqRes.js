@@ -48,8 +48,6 @@ handler.handleReqRes = (req, res) => {
         realData += decoder.end();
 
         requestProperties.body = parseJSON(realData);
-
-
         chosenHandler(requestProperties, (statusCode, payload) => {
             statusCode = typeof statusCode === 'number' ? statusCode : 500;
             payload = typeof payload === 'object' ? payload : {};
@@ -61,8 +59,6 @@ handler.handleReqRes = (req, res) => {
             res.writeHead(statusCode);
             res.end(payloadString);
         });
-
-        
     });
 };
 module.exports = handler;

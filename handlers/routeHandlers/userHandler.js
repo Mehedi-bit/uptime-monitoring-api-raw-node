@@ -59,7 +59,7 @@ handler._users.post = (requestProperties, callback) => {
 
     if (firstName && lastName && phone && password && tosAgreement) {
         // make sure that the user doesn't already exist
-        data.read('users', 'phone', (err1) => {
+        data.read('users', phone, (err1) => {
             if (err1) {
                 // means- na pele read korte parbe na, then error dibe, ami error tai chai, na pele tobei ami insert korbo.
                 const userObject = {
@@ -70,7 +70,7 @@ handler._users.post = (requestProperties, callback) => {
                     tosAgreement,
                 };
                 // store the user to db
-                data.create('users', 'phone', userObject, (err2) => {
+                data.create('users', phone, userObject, (err2) => {
                     if (!err2) {
                         callback(200, {
                             message: 'User was created successfully!',
@@ -101,7 +101,7 @@ handler._users.get = (requestProperties, callback) => {
             : false;
     if (phone) { // *** for accuracy check if(phone === requestProperties.body.phone)
         // lookup the user
-        data.read('users', 'phone', (err, u) => { /// / 'phone' > phone
+        data.read('users', phone, (err, u) => { /// / phone > phone
             const user = { ...parseJSON(u) };
             if (!err && user) {
                 delete user.password;
@@ -141,7 +141,7 @@ handler._users.put = (requestProperties, callback) => {
     if (phone) {
         if (firstName || lastName || password) {
             // lookup the user
-            data.read('users', 'phone', (err1, uData) => { /// / 'phone' > phone
+            data.read('users', phone, (err1, uData) => { /// / phone > phone
                 const userData = { ...parseJSON(uData) };
                 if (!err1 && userData) {
                     if (firstName) {
@@ -155,7 +155,7 @@ handler._users.put = (requestProperties, callback) => {
                     }
 
                     // store to database / update database
-                    data.update('users', 'phone', userData, (err2) => {
+                    data.update('users', phone, userData, (err2) => {
                         if (!err2) {
                             callback(200, { message: 'User was updated successfully.' });
                         } else {
@@ -181,9 +181,9 @@ handler._users.delete = (requestProperties, callback) => {
             : false;
     if (phone) {
         // lookup the user
-        data.read('users', 'phone', (err1, userData) => {
+        data.read('users', phone, (err1, userData) => {
             if (!err1 && userData) {
-                data.delete('users', 'phone', (err2) => {
+                data.delete('users', phone, (err2) => {
                     if (!err2) {
                         callback(200, { message: 'User was successfully deleted.' });
                     } else {

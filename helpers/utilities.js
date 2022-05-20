@@ -29,10 +29,8 @@ utilities.parseJSON = (jsonString) => {
 // hash the string  or password etc
 utilities.hash = (str) => {
     if (typeof str === 'string' && str.length > 0) {
-        // eslint-disable-next-line prettier/prettier
-        const hash = crypto.createHmac('sha256', environments.secretKey)
-            .update('str')
-            .digest('hex');
+        console.log(environments, process.env.NODE_ENV);
+        const hash = crypto.createHmac('sha256', environments.secretKey).update(str).digest('hex');
         return hash;
     }
     return false;

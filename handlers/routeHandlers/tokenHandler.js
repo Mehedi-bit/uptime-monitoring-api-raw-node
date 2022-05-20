@@ -39,7 +39,7 @@ handler._token.post = (requestProperties, callback) => {
 
     // Authenticate
     if (phone && password) {
-        data.read('users', 'phone', (err1, userData) => {
+        data.read('users', phone, (err1, userData) => {
             const hashedPassword = hash(password);
             if (hashedPassword === parseJSON(userData).password) {
                 const tokenId = createRandomString(20);
@@ -62,7 +62,7 @@ handler._token.post = (requestProperties, callback) => {
                 });
             } else {
                 callback(400, {
-                    error: 'Password is not valid',
+                    error: 'Phone or password is not valid',
                 });
             }
         });
