@@ -23,5 +23,6 @@
       }
     ]
   },
-  "plugins": ["prettier"]
+  "plugins": ["prettier"],
+  "allow"
 }
