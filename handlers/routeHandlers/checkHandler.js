@@ -151,16 +151,16 @@ handler._check.get = (requestProperties, callback) => {
     if (id) {
         // lookup the the checks
         data.read('checks', id, (err, checkData) => {
-            if (!err & checkData) {
+            if (!err && checkData) {
                 // check the token
                 const token = typeof requestProperties.headerObject.token === 'string'
                 ? requestProperties.headerObject.token
                 : false;
 
                 // verify the token
-                tokenHandler._token.verify(token, userPhone, (tokenIsValid) => { // *** userPhone -> phone
+                tokenHandler._token.verify(token, parseJSON(checkData).userPhone, (tokenIsValid) => { // *** userPhone -> phone
                     if (tokenIsValid) {
-                        callback(200, checkData);
+                        callback(200, parseJSON(checkData));
                     } else {
                         callback(403, {
                             error: 'Authentication failure!',
