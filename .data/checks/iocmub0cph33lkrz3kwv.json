@@ -1,0 +1,9 @@
+{
+  "id": "iocmub0cph33lkrz3kwv",
+  "userPhone": "01790231866",
+  "protocol": "http",
+  "url": "google.com",
+  "method": "GET",
+  "successCodes": [200, 201],
+  "timeoutSeconds": 2
+}
