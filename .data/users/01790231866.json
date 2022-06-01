@@ -1,1 +1,8 @@
-{"firstName":"Mehedi Hasan","lastName":"Emon","phone":"01790231866","password":"996668dc812ec8baf8a87d4be0de2a5d03e72db10e591335f5daf916107a1fb9","tosAgreement":true,"checks":["iocmub0cph33lkrz3kwv"]}
+{
+  "firstName": "Mehedi Hasan",
+  "lastName": "Emon",
+  "phone": "01790231866",
+  "password": "996668dc812ec8baf8a87d4be0de2a5d03e72db10e591335f5daf916107a1fb9",
+  "tosAgreement": true,
+  "checks": []
+}

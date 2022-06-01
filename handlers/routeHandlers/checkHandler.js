@@ -5,7 +5,7 @@
  * Title: check Handler
  * Description: handler to handle user defined checks
  * Author: Mahdi Hasan
- * Date|: 26/05/2022
+ * Date: 26/05/2022
  *
  */
 
@@ -186,9 +186,6 @@ handler._check.put = (requestProperties, callback) => {
         ? requestProperties.body.id
         : false;
 
-    console.log(requestProperties.body.id);
-    console.log(id); // ----------solve error: id is false ***-----------
-
     const protocol = typeof (requestProperties.body.protocol) === 'string'
     && ['http', 'https'].indexOf(requestProperties.body.protocol) > -1
     ? requestProperties.body.protocol : false;
@@ -275,6 +272,97 @@ handler._check.put = (requestProperties, callback) => {
 };
 
 handler._check.delete = (requestProperties, callback) => {
+    // check the id if valid
+    const id = typeof requestProperties.queryStringObject.id === 'string'
+    && requestProperties.queryStringObject.id.trim().length === 20
+        ? requestProperties.queryStringObject.id
+        : false;
+
+    if (id) {
+        // lookup the check
+        data.read('checks', id, (err1, checkData) => {
+            if (!err1 && checkData) {
+                const token = typeof requestProperties.headerObject.token === 'string'
+                        ? requestProperties.headerObject.token
+                        : false;
+
+                tokenHandler._token.verify(
+                    token,
+                    parseJSON(checkData).userPhone,
+                    (tokenIsValid) => {
+                        if (tokenIsValid) {
+                            // delete the check data
+                            data.delete('checks', id, (err2) => {
+                                if (!err2) {
+                                    data.read(
+                                        'users',
+                                        parseJSON(checkData).userPhone,
+                                        (err3, userData) => {
+                                            const userObject = parseJSON(userData);
+                                            if (!err3 && userData) {
+                                                const userChecks = typeof userObject.checks === 'object'
+                                                    && userObject.checks instanceof Array
+                                                        ? userObject.checks
+                                                        : [];
+
+                                                // remove the deleted check id from user's list of checks
+                                                const checkPosition = userChecks.indexOf(id);
+                                                if (checkPosition > -1) {
+                                                    userChecks.splice(checkPosition, 1);
+                                                    // resave the user data
+                                                    userObject.checks = userChecks;
+                                                    data.update(
+                                                        'users',
+                                                        userObject.phone,
+                                                        userObject,
+                                                        (err4) => {
+                                                            if (!err4) {
+                                                                callback(200);
+                                                            } else {
+                                                                callback(500, {
+                                                                    error:
+                                                                        'There was a server side problem!',
+                                                                });
+                                                            }
+                                                        },
+                                                    );
+                                                } else {
+                                                    callback(500, {
+                                                        error:
+                                                            'The check id that you are trying to remove is not found in user!',
+                                                    });
+                                                }
+                                            } else {
+                                                callback(500, {
+                                                    error: 'There was a server side problem!',
+                                                });
+                                            }
+                                        },
+                                    );
+                                } else {
+                                    callback(500, {
+                                        error: 'There was a server side problem!',
+                                    });
+                                }
+                            });
+                        } else {
+                            callback(403, {
+                                error: 'Authentication failure!',
+                            });
+                        }
+                    },
+                );
+            } else {
+                callback(500, {
+                    error: 'You have a problem in your request',
+                });
+            }
+        });
+    } else {
+        callback(400, {
+            error: 'You have a problem in your request',
+        });
+    }
 };
 
 // exporting
