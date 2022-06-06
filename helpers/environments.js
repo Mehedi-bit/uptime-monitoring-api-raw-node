@@ -33,8 +33,8 @@ environments.production = {
     maxChecks: 5,
     twilio: {
         fromPhone: '+15005550006',
-        accountSid: 'AC32ec004b1dbc86b7760e3a167b46287c',
-        authToken: '19e03284b40bdd0e459bb2c904d1d980',
+        accountSid: 'AC832b26d2e03c7b8b39202cba2bb63326',
+        authToken: '390475c48129c450f4a337ea68976308',
     },
 };
 

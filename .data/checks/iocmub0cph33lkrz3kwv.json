@@ -1,9 +1,1 @@
-{
-  "id": "iocmub0cph33lkrz3kwv",
-  "userPhone": "01790231866",
-  "protocol": "http",
-  "url": "linkedin.com",
-  "method": "GET",
-  "successCodes": [200, 201],
-  "timeoutSeconds": 2
-}
+{"id":"iocmub0cph33lkrz3kwv","userPhone":"01790231866","protocol":"http","url":"linkedin.com","method":"GET","successCodes":[200,201,301],"timeoutSeconds":2,"state":"up","lastChecked":1654546827508}
